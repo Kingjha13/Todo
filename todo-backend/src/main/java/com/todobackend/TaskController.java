@@ -45,11 +45,6 @@ public class TaskController {
         return true;
     }
 
-//    @PostMapping("/resister")
-//    public Registration posRest(@RequestBody Registration newRes){
-//        res.add(newRes);
-//        return newRes;
-//    }
     @DeleteMapping("/delete")
     public String delete(@RequestBody Registration newDel){
         Long id = newDel.id;

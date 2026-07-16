@@ -31,10 +31,19 @@ class MainActivity : ComponentActivity() {
 //            HomeScreen(vm)
 //            Testing()
 //            Log()
+            var isRegistered by remember { mutableStateOf(false) }
+
+            if (isRegistered) {
+                Welcome()
+            } else {
+                Registration(onRegistrationSuccess = {
+                    isRegistered = true
+                })
+            }
 //            Registration()
 //            Update()
 //            Delete()
-            Logs()
+//            Logs()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.springpra
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,7 @@ import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun Registration(){
+fun Registration(onRegistrationSuccess: () -> Unit){
     var name by remember { mutableStateOf("") }
     var id  by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
@@ -52,6 +53,7 @@ fun Registration(){
                         val response = RetrofitClient.api.doresister(newll)
                         if(response){
                             Toast.makeText(context,"Welcome $name", Toast.LENGTH_LONG).show()
+                            onRegistrationSuccess()
                         }
                         else{
                             Toast.makeText(context,"User already exist with $id", Toast.LENGTH_LONG).show()
