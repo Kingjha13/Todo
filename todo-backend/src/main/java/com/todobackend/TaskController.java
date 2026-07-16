@@ -2,6 +2,7 @@ package com.todobackend;
 
 
 import jdk.jfr.Registered;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,8 @@ import java.util.Map;
 public class TaskController {
     List<Registration> res = new ArrayList<>();
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private JwtUtil jwt;
 
     @GetMapping("/")
     public String rea(){
@@ -33,18 +36,39 @@ public class TaskController {
         }
         return "Username and password are not exists";
     }
+//    @PostMapping("/resister")
+//    public Boolean posRest(@RequestBody Registration newRes){
+//        for(Registration re : res){
+//            if(re.id.equals(newRes.id)){
+//                return false;
+//            }
+//        }
+//        newRes.password=encoder.encode(newRes.password);
+//        res.add(newRes);
+//        return true;
+//    }
+
     @PostMapping("/resister")
-    public Boolean posRest(@RequestBody Registration newRes){
+    public String posRest(@RequestBody Registration newRes){
         for(Registration re : res){
             if(re.id.equals(newRes.id)){
-                return false;
+                return "Unable to create token because user already exists with same id";
             }
         }
         newRes.password=encoder.encode(newRes.password);
         res.add(newRes);
-        return true;
+        return jwt.generateToken(newRes.name);
     }
 
+    @GetMapping("/me")
+    public String checkMe(@RequestHeader ("Authorization") String authHeader){
+        if (jwt.validateToken(authHeader)){
+            return jwt.extractUserName(authHeader);
+        }
+        else{
+            return "Invalid Token";
+        }
+    }
     @DeleteMapping("/delete")
     public String delete(@RequestBody Registration newDel){
         Long id = newDel.id;

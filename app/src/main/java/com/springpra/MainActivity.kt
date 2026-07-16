@@ -31,15 +31,16 @@ class MainActivity : ComponentActivity() {
 //            HomeScreen(vm)
 //            Testing()
 //            Log()
-            var isRegistered by remember { mutableStateOf(false) }
-
-            if (isRegistered) {
-                Welcome()
-            } else {
-                Registration(onRegistrationSuccess = {
-                    isRegistered = true
-                })
-            }
+//            var isRegistered by remember { mutableStateOf(false) }
+//
+//            if (isRegistered) {
+//                Welcome()
+//            } else {
+//                Registration(onRegistrationSuccess = {
+//                    isRegistered = true
+//                })
+//            }
+            Welcome()
 //            Registration()
 //            Update()
 //            Delete()

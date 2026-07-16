@@ -1,5 +1,6 @@
 package com.springpra
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -49,15 +50,18 @@ fun Registration(onRegistrationSuccess: () -> Unit){
         Button(onClick = {
             scope.launch{
                     try {
+                        context.getSharedPreferences("auth", Context.MODE_PRIVATE)
                         val newll = Resister(name,id.toLong(),pass)
                         val response = RetrofitClient.api.doresister(newll)
-                        if(response){
-                            Toast.makeText(context,"Welcome $name", Toast.LENGTH_LONG).show()
-                            onRegistrationSuccess()
-                        }
-                        else{
-                            Toast.makeText(context,"User already exist with $id", Toast.LENGTH_LONG).show()
-                        }
+//                        if(response.length>0){
+//                            Toast.makeText(context,"Welcome $name", Toast.LENGTH_LONG).show()
+//                            onRegistrationSuccess()
+//                        }
+//                        else{
+//                            Toast.makeText(context,"User already exist with $id", Toast.LENGTH_LONG).show()
+//                        }
+                        Toast.makeText(context,response, Toast.LENGTH_LONG).show()
+                        TokenManager.saveToken(context,response)
                     }
                     catch (e: Exception) {
                         Toast.makeText(context,"Fail to resister", Toast.LENGTH_LONG).show()
