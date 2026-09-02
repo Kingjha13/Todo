@@ -28,12 +28,21 @@ interface ApiService {
 //        @Header("Authorization") token: String
 //    ): String
 
-    @GET("/me")
-    suspend fun getMe(@Header("Authorization") token : String) : String
+//    @GET("/me")
+//    suspend fun getMe(@Header("Authorization") token : String) : String
+    @POST("/me")
+    suspend fun getMe(@Body token : String) : String
+    @POST("/test")
+    suspend fun gettest(@Body aa : String) : String
     @POST("/resister")
     suspend fun doresister(@Body resister : Resister) : String //Response<Void>
     @PUT("/update")
     suspend fun updateName(@Body resister : Resister) : String
 //    @HTTP(method = "DELETE", path = "/delete"0 hasBody = true)
 //    suspend fun deleteUser(@Body resister: Resister): String
+
+    @POST("rp")
+    suspend fun resper(@Body res : Person) : String
+    @GET("/persons")
+    suspend fun getps() : List<Person>
 }

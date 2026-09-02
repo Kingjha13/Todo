@@ -1,7 +1,6 @@
 package com.springpra
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +22,13 @@ import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun Registration(onRegistrationSuccess: () -> Unit){
+fun Registration(){
     var name by remember { mutableStateOf("") }
     var id  by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    Column(modifier = Modifier.fillMaxSize().padding(top = 40.dp)) {
+    Column(modifier = Modifier.padding(top = 40.dp)) {
         OutlinedTextField(value = name,
             onValueChange = { newValue -> name = newValue }, label = { Text("Enter your name") },
             placeholder = {Text("king")})

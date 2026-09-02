@@ -1,6 +1,8 @@
 package com.springpra
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,7 +22,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +47,21 @@ class MainActivity : ComponentActivity() {
 //                    isRegistered = true
 //                })
 //            }
-            Welcome()
+
+//            Get()
+            val navController = rememberNavController()
+            NavHost(navController=navController, startDestination = "home") {
+                composable("home") {login(navController)}
+                composable("signup"){Signup(navController)}
+            }
+            Column(modifier = Modifier.padding(top = 50.dp)) {
+//                Logs()
+//                Registration()
+//                Spacer(modifier = Modifier.height(20.dp))
+//                Welcome()
+//                CurdO()
+            }
+
 //            Registration()
 //            Update()
 //            Delete()
@@ -49,6 +70,27 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+@Composable
+fun GGP(navController: NavController){
+    val context = LocalContext.current
+    var mlist by remember { mutableStateOf<List<Person>>(emptyList()) }
+    Column(modifier = Modifier.padding(top = 20.dp)) {
+        LaunchedEffect(Unit) {
+            try {
+                mlist = RetrofitClient.api.getps()
+            }
+            catch (e: Exception){
+                Toast.makeText(context,"Fail",Toast.LENGTH_LONG).show()
+            }
+        }
+        mlist.forEach {
+            Text(it.name)
+            Text(it.id)
+            Text(it.password)
+        }
+    }
+}
 //@Composable
 //fun Log() {
 //    var id by remember { mutableStateOf("") }

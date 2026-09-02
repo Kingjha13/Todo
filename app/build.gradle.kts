@@ -52,6 +52,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.navigation:navigation-compose:2.10.0")
 
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)

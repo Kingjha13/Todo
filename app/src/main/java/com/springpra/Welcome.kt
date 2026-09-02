@@ -46,6 +46,8 @@ fun Welcome(){
 //            responseId = "Error fetching data"
 //        }
 //    }
+    Text(text = token.toString())
+
     LaunchedEffect(Unit) {
         str = try {
             RetrofitClient.api.getMe(token!!)
@@ -53,7 +55,7 @@ fun Welcome(){
             "Error"
         }
     }
-    Column(modifier = Modifier.fillMaxSize().padding(top = 20.dp)) {
+    Column(modifier = Modifier.padding(top = 20.dp)) {
 //        Text(text = "Welcome to the app. ID: $responseId")
 //        for (ite in emptyList){
 //            Text(text = ite)

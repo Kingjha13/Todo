@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class TaskController {
     List<Registration> res = new ArrayList<>();
+    List<Person> per = new ArrayList<>();
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Autowired
     private JwtUtil jwt;
@@ -60,14 +62,26 @@ public class TaskController {
         return jwt.generateToken(newRes.name);
     }
 
-    @GetMapping("/me")
-    public String checkMe(@RequestHeader ("Authorization") String authHeader){
-        if (jwt.validateToken(authHeader)){
-            return jwt.extractUserName(authHeader);
+
+    @PostMapping("/test")
+    public String returns(@RequestBody String abs){
+        return abs+"a";
+    }
+//    @GetMapping("/me")
+//    public String checkMe(@RequestHeader ("Authorization") String authHeader){
+//        if (jwt.validateToken(authHeader)){
+//            return jwt.extractUserName(authHeader);
+//        }
+//        else{
+//            return "Invalid Token";
+//        }
+//    }
+    @PostMapping("/me")
+    public String checkMe(@RequestBody String abs){
+        if(jwt.validateToken(abs)){
+            return jwt.extractUserName(abs);
         }
-        else{
-            return "Invalid Token";
-        }
+        return "Invalid Toke";
     }
     @DeleteMapping("/delete")
     public String delete(@RequestBody Registration newDel){
@@ -91,11 +105,40 @@ public class TaskController {
     }
     public String verify(String name  , Long id){
         for (Registration re : res) {
-            if (re.id == id) {
+            if (Objects.equals(re.id, id)) {
                 re.name = name;
                 return "Name Updated successfully";
             }
         }
         return "No user found with this id";
+    }
+
+    @PostMapping("rp")
+    public String resisterPerson(@RequestBody Person  pers){
+        for(Person pr : per){
+            if(Objects.equals(pr.id, pers.id)){
+                return "User already exists with same id";
+            }
+        }
+        per.add(pers);
+        return "You have successfully resistered";
+    }
+    @GetMapping("/gp")
+    public List<Person> getP(){
+        return per;
+    }
+//    @GetMapping("/gp/{id}")
+//    public String getUserById(@PathVariable String id){
+//        return "Featching user with Id: "+id;
+//    }
+    @GetMapping("/gp/{city}")
+    public List<Person> getUse(@PathVariable String city){
+        List<Person> lt = new ArrayList<>();
+        for(Person re : per){
+            if (re.password != null && re.password.equalsIgnoreCase(city)) {
+                lt.add(re);
+            }
+        }
+        return lt;
     }
 }
