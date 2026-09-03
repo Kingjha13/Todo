@@ -50,9 +50,10 @@ class MainActivity : ComponentActivity() {
 
 //            Get()
             val navController = rememberNavController()
-            NavHost(navController=navController, startDestination = "home") {
+            NavHost(navController=navController, startDestination = "signup") {
                 composable("home") {login(navController)}
                 composable("signup"){Signup(navController)}
+                composable("welcome"){Home(navController)}
             }
             Column(modifier = Modifier.padding(top = 50.dp)) {
 //                Logs()

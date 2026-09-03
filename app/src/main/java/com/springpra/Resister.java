@@ -1,5 +1,7 @@
 package com.springpra;
 
+import android.widget.EditText;
+
 public class Resister {
     String name;
     Long id;

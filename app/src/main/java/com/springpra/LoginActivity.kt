@@ -46,7 +46,7 @@ fun login(navController: NavController){
     val scroleState = rememberScrollState()
     Column(modifier = Modifier.verticalScroll(scroleState)) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 50.dp).height(130.dp).background(Color.Blue, shape = RoundedCornerShape(20.dp)).fillMaxWidth()){
-            Text(text = "Karna kya h", color = Color.White, fontSize = 20.sp)
+            Text(text = "Task Master", color = Color.White, fontSize = 20.sp)
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Sign in", modifier = Modifier.padding(start = 20.dp), Color(0xFF000000),
@@ -74,9 +74,11 @@ fun login(navController: NavController){
         }
         Spacer(modifier = Modifier.height(20.dp))
         Text(text = "Don't have an account?", modifier = Modifier.padding(start = 100.dp), color = Color.Gray)
-        TextButton(onClick = {navController.navigate("signup")}, modifier = Modifier.padding(start = 110.dp)
-        ){
-            Text(text = "Create One", color = Color.Blue, fontWeight = FontWeight.Bold)
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+            TextButton(onClick = {navController.navigate("signup")}
+            ){
+                Text(text = "Create One", color = Color.Blue, fontWeight = FontWeight.Bold)
+            }
         }
     }
 
