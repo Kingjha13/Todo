@@ -22,7 +22,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Extract information
 
     public Claims extractClaims(String token){
         return Jwts.parser()
@@ -32,7 +31,6 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    //Extract UserName
 
     public String extractUserName(String token){
         return extractClaims(token).getSubject();

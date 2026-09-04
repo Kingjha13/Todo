@@ -11,38 +11,6 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("/")
-    suspend fun home() : String
-    @POST("/users")
-    suspend fun createUser(@Body user : User): Response<Void>
-    @GET("/users")
-    suspend fun getUser() : List<User>
-//    @POST("/logins")
-//    suspend fun createLogin(@Body login : Login) : Response<Void>
-    @GET("/login")
-    suspend fun getLogin() : List<Resister>
-    @POST("/logins")
-    suspend fun getLo(@Body user : Resister) : String
-//    @GET("/me")
-//    suspend fun getMe(
-//        @Header("Authorization") token: String
-//    ): String
-
-//    @GET("/me")
-//    suspend fun getMe(@Header("Authorization") token : String) : String
-    @POST("/me")
-    suspend fun getMe(@Body token : String) : String
-    @POST("/test")
-    suspend fun gettest(@Body aa : String) : String
-    @POST("/resister")
-    suspend fun doresister(@Body resister : Resister) : String //Response<Void>
-    @PUT("/update")
-    suspend fun updateName(@Body resister : Resister) : String
-//    @HTTP(method = "DELETE", path = "/delete"0 hasBody = true)
-//    suspend fun deleteUser(@Body resister: Resister): String
-
-    @POST("rp")
-    suspend fun resper(@Body res : Person) : String
-    @GET("/persons")
-    suspend fun getps() : List<Person>
+    @POST("/registerusername")
+    suspend fun createUser(@Body ree : RegisterUser) : Boolean
 }

@@ -1,5 +1,6 @@
 package com.springpra
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,21 +22,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropSourceModifierNode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import java.nio.file.WatchEvent
 
 
 @Composable
 fun Signup(navController: NavController){
     var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Row() {
             IconButton(onClick = {navController.navigate("home")}) {
@@ -47,11 +55,23 @@ fun Signup(navController: NavController){
         Text(text = "Get started", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(start = 15.dp))
         EditField(name,"Full Name",{name=it})
         Spacer(modifier = Modifier.height(10.dp))
-        EditField(name,"Email",{name=it})
+        EditField(email,"Email",{email=it})
         Spacer(modifier = Modifier.height(10.dp))
-        EditField(name,"Password",{name=it})
+        EditField(password,"Password",{password=it})
         Spacer(modifier = Modifier.height(10.dp))
-        OutlinedButton(onClick = {name="Avanish"}, modifier = Modifier.height(50.dp).padding(start = 20.dp, end = 20.dp).fillMaxWidth(), shape = RoundedCornerShape(10.dp)
+        OutlinedButton(onClick = {
+            scope.launch {
+                val abc = RegisterUser(name,email,password)
+                val response = RetrofitClient.api.createUser(abc)
+                if(response){
+                    Toast.makeText(context,"Your id created successfully", Toast.LENGTH_LONG).show()
+                    navController.navigate("welcome")
+                }
+                else{
+                    Toast.makeText(context,"Something went wrong", Toast.LENGTH_LONG).show()
+                }
+            }
+        }, modifier = Modifier.height(50.dp).padding(start = 20.dp, end = 20.dp).fillMaxWidth(), shape = RoundedCornerShape(10.dp)
             ,colors= ButtonDefaults.buttonColors(Color(0xFF2C8BFF))) {
             Text(text = "Create account",color = Color.White)
         }
