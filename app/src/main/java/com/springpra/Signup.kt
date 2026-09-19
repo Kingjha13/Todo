@@ -65,7 +65,7 @@ fun Signup(navController: NavController){
                 val response = RetrofitClient.api.createUser(abc)
                 if(response){
                     Toast.makeText(context,"Your id created successfully", Toast.LENGTH_LONG).show()
-                    navController.navigate("welcome")
+                    navController.navigate("home")
                 }
                 else{
                     Toast.makeText(context,"Something went wrong", Toast.LENGTH_LONG).show()
