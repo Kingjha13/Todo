@@ -3,6 +3,7 @@ package com.springpra
 import android.R
 import android.text.style.BackgroundColorSpan
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,10 +39,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 
 @Composable
 fun login(navController: NavController){
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val scroleState = rememberScrollState()
@@ -68,7 +72,20 @@ fun login(navController: NavController){
             , modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp), shape = RoundedCornerShape(10.dp)
         )
         Spacer(modifier = Modifier.height(15.dp))
-        OutlinedButton(onClick = {username="Avanish"}, modifier = Modifier.height(50.dp).padding(start = 20.dp, end = 20.dp).fillMaxWidth(), shape = RoundedCornerShape(10.dp)
+        OutlinedButton(onClick = {
+            scope.launch {
+                val abc = Login(username,password);
+                val response = RetrofitClient.api.logg(abc);
+                if(response.status){
+                    savedTokenStorage(context,response.token)
+                    navController.navigate("welcome")
+                    Toast.makeText(context,"Logged in successfully", Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(context,response.token, Toast.LENGTH_LONG).show()
+                }
+            }
+        }, modifier = Modifier.height(50.dp).padding(start = 20.dp, end = 20.dp).fillMaxWidth(), shape = RoundedCornerShape(10.dp)
             ,colors= ButtonDefaults.buttonColors(Color(0xFF2C8BFF))) {
             Text(text = "Sign in",color = Color.White)
         }
